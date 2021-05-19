@@ -28,42 +28,10 @@ function App() {
 
   useEffect(() => {
     // console.log("Fetching data side-effect.");
-    console.log(userInput);
+    // console.log(userInput);
 
-    getRecipe();
+    // getRecipe();
     // setUserInput('');
-
-  }, [query]);
-
-  // Referencing our firebase database
-  const dbRef = firebase.database().ref();
-  useEffect(() => {
-    dbRef.on('value', (response) => {
-      console.log(response);
-
-      const data = response.val();
-      console.log(data);
-
-
-      const recipeObjectArray = [];
-      for (let key in data) {
-        console.log(key);
-        const recipeObject = {
-          key: key,
-          name: data[key].foodName,
-          saveState: true,
-          recipeKey: data[key].key
-        };
-        recipeObjectArray.push(recipeObject);
-      }
-
-      setSavedRecipe(recipeObjectArray);
-    })
-
-  }, []);
-
-//function to get data from API
-  const getRecipe = () => {
 
     const url = new URL(`https://api.edamam.com/search`);
     const searchParams = new URLSearchParams(
@@ -91,15 +59,15 @@ function App() {
         }
       })
       .then((jsonResponse) => {
-        console.log(jsonResponse);
+        // console.log(jsonResponse);
 
         const recipeArray = jsonResponse.hits;
-        console.log(recipeArray);
+        // console.log(recipeArray);
 
         // if (recipeArray.length > 0) {
         //   console.log(recipeArray[0].allRecipe.mealType[0]);
         // }
-        
+
 
         const newRecipes = recipeArray.map((currentRecipe) => {
           return {
@@ -113,7 +81,7 @@ function App() {
             key: currentRecipe.recipe.uri
           }
         });
-        console.log("api allRecipe", newRecipes);
+        // console.log("api allRecipe", newRecipes);
 
         // const filteredRecipes = newRecipes.filter((allRecipe)=> {
         //   return allRecipe.foodImg;
@@ -135,8 +103,44 @@ function App() {
 
         setFilteredDietRecipe(newRecipes);
       })
+
+  }, [query]);
+
+  // Referencing our firebase database
+  const dbRef = firebase.database().ref();
+  useEffect(() => {
+    //redefine to clear warning
+    const dbRef = firebase.database().ref();
+    dbRef.on('value', (response) => {
+      // console.log(response);
+
+      const data = response.val();
+      // console.log(data);
+
+
+      const recipeObjectArray = [];
+      for (let key in data) {
+        // console.log(key);
+        const recipeObject = {
+          key: key,
+          name: data[key].foodName,
+          saveState: true,
+          recipeKey: data[key].key
+        };
+        recipeObjectArray.push(recipeObject);
+      }
+
+      setSavedRecipe(recipeObjectArray);
+    })
+
+  }, []);
+
+//function to get data from API
+  // const getRecipe = () => {
+
+    
       
-  }
+  // }
 
   //function to get user's input
   const handleUserInput = (event) => {
@@ -154,7 +158,7 @@ function App() {
   //function to filter data based on user's diet choice
   const dietFilter = (chosenDiet) => {
 
-    console.log("the chosen diet is: ", chosenDiet);
+    // console.log("the chosen diet is: ", chosenDiet);
 
     if (chosenDiet === "all") {
       setFilteredDietRecipe(allRecipe);
@@ -164,21 +168,21 @@ function App() {
         //check if array contains user's select choice
         return currentRecipe.dietType.includes(chosenDiet);
       });
-      console.log("filtered array based on diet choice: ", filteredRecipeArray);
+      // console.log("filtered array based on diet choice: ", filteredRecipeArray);
       setFilteredDietRecipe(filteredRecipeArray);
     }
     
   }
 
   const handleAddRecipeClick = (recipeKey) => {
-    console.log("clicked");
-    console.log(recipeKey);
+    // console.log("clicked");
+    // console.log(recipeKey);
     dbRef.push(recipeKey);
   }
 
 
   const handleRemoveRecipe = (recipeKey) => {
-    console.log(recipeKey);
+    // console.log(recipeKey);
     dbRef.child(recipeKey).remove();
   }
 

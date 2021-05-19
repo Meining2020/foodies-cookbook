@@ -14,10 +14,10 @@ const RecipeContainer = ({ recipeData, addRecipeFunction }) => {
         // console.log(show);
     }
 
-    // const handleSaveClick = (event) => {
-    //     setSave(!save);
-    //     console.log(event.target);
-    // }
+    const handleSaveClick = () => {
+        setSave(!save);
+        // console.log(event.target);
+    }
     
     return (
         <Fragment>
@@ -28,10 +28,12 @@ const RecipeContainer = ({ recipeData, addRecipeFunction }) => {
                     
                     recipeData.map((currentData)=> {
                         const { foodName, foodImg, calories, ingredientList, recipeSource, key} = currentData;
+                        // console.log(currentData);
                         return (
                             <div className="subContainer" key={key}>
 
-                                <span onClick={() => {addRecipeFunction(foodName)}} >
+                                <span onClick={() => { addRecipeFunction(currentData)
+                                    handleSaveClick()}} >
                                     {
                                         save ? <i className="fas fa-heart" ></i> 
                                             : <i className="far fa-heart"></i>

@@ -1,7 +1,6 @@
 //import styles
 import '../styles/App.css';
 
-import uuid from 'react-uuid';
 
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
@@ -51,11 +50,13 @@ function App() {
         console.log(key);
         const recipeObject = {
           key: key,
-          name: data[key]
+          name: data[key].foodName,
+          saveState: true,
+          recipeKey: data[key].key
         };
         recipeObjectArray.push(recipeObject);
       }
-      console.log(recipeObjectArray);
+
       setSavedRecipe(recipeObjectArray);
     })
 
@@ -63,7 +64,6 @@ function App() {
 
 //function to get data from API
   const getRecipe = () => {
-    //GET CORS error
 
     const url = new URL(`https://api.edamam.com/search`);
     const searchParams = new URLSearchParams(
@@ -110,7 +110,7 @@ function App() {
             recipeSource: currentRecipe.recipe.url,
             dietType: currentRecipe.recipe.dietLabels,
             mealType: currentRecipe.recipe.mealType,
-            key: uuid(),
+            key: currentRecipe.recipe.uri
           }
         });
         console.log("api allRecipe", newRecipes);
@@ -118,6 +118,18 @@ function App() {
         // const filteredRecipes = newRecipes.filter((allRecipe)=> {
         //   return allRecipe.foodImg;
         // })
+
+
+        //stretch goal to work on later
+        // const completedRecipeArray = ()=> {
+        //   newRecipes.map((recipe) => {
+        //     const recipeKey = recipe.key;
+        //     console.log(savedRecipe.indexOf(recipeKey));
+
+        //     return recipeKey;
+        //   })
+        // }
+        // completedRecipeArray();
 
         setAllRecipe(newRecipes);
 
@@ -178,7 +190,7 @@ function App() {
           <div className="wrapper">
 
             <span><i className="fas fa-heart"></i></span>
-            
+
             <h1>Foodie's Cookbook!</h1>
 
             <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe}/>

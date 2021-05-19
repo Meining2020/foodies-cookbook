@@ -8,6 +8,8 @@ import {useEffect, useState} from 'react'
 //import RecipeContainer
 import RecipeContainer from './RecipeContainer.js';
 
+import SelectionForm from './SelectionForm.js';
+
 const apiID = `2b60c807`;
 const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 
@@ -15,17 +17,17 @@ const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 function App() {
 
   const [userInput, setUserInput] = useState("");
-  const [recipe, setRecipe] = useState([]);
   const [query, setQuery] = useState("");
-  const [filterDiet, setFilterDiet] = useState();
-  const [filterMeal, setFilterMeal] = useState();
+  const [allRecipe, setAllRecipe] = useState([]);
+  const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
+  const [showInput, setShowInput] = useState(false);
 
   useEffect(() => {
     // console.log("Fetching data side-effect.");
     console.log(userInput);
 
-    // getRecipe();
-    setUserInput('');
+    getRecipe();
+    // setUserInput('');
 
   }, [query])
 
@@ -42,18 +44,18 @@ function App() {
       }
     );
 
-    if (filterDiet) {
-      searchParams.append("diet", filterDiet);
-    }
+    // if (filterDiet) {
+    //   searchParams.append("diet", filterDiet);
+    // }
 
-    if (filterMeal) {
-      searchParams.append("mealType", filterMeal);
-    }
+    // if (filterMeal) {
+    //   searchParams.append("mealType", filterMeal);
+    // }
 
 
     url.search = searchParams;
-    console.log(url);
-    console.log(userInput);
+    // console.log(url);
+    // console.log(userInput);
 
     fetch(url)
       .then((response) => {
@@ -71,7 +73,12 @@ function App() {
         // console.log(jsonResponse);
 
         const recipeArray = jsonResponse.hits;
-        // console.log(recipeArray);
+        console.log(recipeArray);
+
+        // if (recipeArray.length > 0) {
+        //   console.log(recipeArray[0].allRecipe.mealType[0]);
+        // }
+        
 
         const newRecipes = recipeArray.map((currentRecipe, index) => {
           return {
@@ -80,16 +87,25 @@ function App() {
             calories: currentRecipe.recipe.calories,
             ingredientList: currentRecipe.recipe.ingredientLines,
             recipeSource: currentRecipe.recipe.url,
+            dietType: currentRecipe.recipe.dietLabels,
+            mealType: currentRecipe.recipe.mealType,
             key: index,
           }
         });
-        console.log("api recipe", newRecipes);
+        console.log("api allRecipe", newRecipes);
 
-        // const filteredRecipes = newRecipes.filter((recipe)=> {
-        //   return recipe.foodImg;
+        // if (newRecipes.length > 0) {
+        //   console.log(newRecipes[0].dietType);
+        //   console.log(newRecipes[0].dietType.includes("Low-Fat"))
+        // }
+
+        // const filteredRecipes = newRecipes.filter((allRecipe)=> {
+        //   return allRecipe.foodImg;
         // })
 
-        setRecipe(newRecipes);
+        setAllRecipe(newRecipes);
+
+        setFilteredDietRecipe(newRecipes);
       })
       
   }
@@ -105,23 +121,28 @@ function App() {
     event.preventDefault();
     
     setQuery(userInput); 
-
-    getRecipe();
-  }
-
-  const handleDietSelection = (event) => {
-    console.log(event.target.value);
-    const selectedValue = event.target.value;
-    setFilterDiet(selectedValue);
+    setShowInput(!showInput);
 
   }
 
-  const handleMealSelection = (event) => {
-    console.log(event.target.value);
-    const selectedValue = event.target.value;
-    setFilterMeal(selectedValue);
+  const dietFilter = (chosenDiet) => {
 
+    console.log("the chosen diet is: ", chosenDiet);
+
+    if (chosenDiet === "all") {
+      setFilteredDietRecipe(allRecipe);
+    } else {
+
+      const filteredRecipeArray = allRecipe.filter((currentRecipe)=> {
+        //check if array contains user's select choice
+        return currentRecipe.dietType.includes(chosenDiet);
+      });
+      console.log("filtered array based on diet choice: ", filteredRecipeArray);
+      setFilteredDietRecipe(filteredRecipeArray);
+    }
+    
   }
+
 
   return (
     <div className="App">
@@ -130,45 +151,29 @@ function App() {
           <div className="wrapper">
             <h1>Foodie's Cookbook!</h1>
 
-            {/* input and selection area */}
-            <form action="submit">
+            {/* search area */}
+            <form action="submit" className="search">
               {/* label for screen readers only*/}
               <label htmlFor="input" className="srOnly">input keyword to search recipes</label>
               {/* search bar*/}
-              <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search Food" required/>
-
-              <div className="selectSection">
-
-                <select name="dietType" id="dietType" onChange={handleDietSelection}>
-                  <option value=""disabled>Select diet type</option>
-                  <option value="balanced">Balanced</option>
-                  <option value="high-fiber">High-Fiber</option>
-                  <option value="high-protein">High-Protein</option>
-                  <option value="low-carb">Low-Carbonate</option>
-                  <option value="low-fat">Low-Fat</option>
-                  <option value="low-sodium">Low-Sodium</option>
-                </select>
-
-                <select name="mealType" id="mealType" onChange={handleMealSelection}>
-                  <option value="" disabled>Select meal type</option>
-                  <option value="Breakfast">Breakfast</option>
-                  <option value="Lunch">Lunch</option>
-                  <option value="Dinner">Dinner</option>
-                  <option value="Snack">Snack</option>
-                  <option value="Teatime">Teatime</option>
-                </select>
-              </div>
-
+              <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search Food" disabled={showInput}/>
               {/* submit button */}
-              <button type="submit" onClick={handleSubmitClick}>Get your recipe!</button>
-
-
+              <button onClick={handleSubmitClick}><i className="fas fa-search"></i></button>
             </form>
+
+            <SelectionForm dietFilterFuntion={dietFilter}/>
+
           </div>
 
         </header>
 
-        <RecipeContainer recipeData={recipe} />
+        {filteredDietRecipe.length > 0 
+          ? <RecipeContainer recipeData={filteredDietRecipe} />
+          : <p>No Data</p>
+        }
+
+        {/* <RecipeContainer recipeData={filteredDietRecipe} /> */}
+        
       </main>
 
       <footer>
@@ -186,4 +191,6 @@ export default App;
 //how to filter img (404 response): try search "pizza"
 
 //TO show button only apply to one
+
+// no result to show after search 
 

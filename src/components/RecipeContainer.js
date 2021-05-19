@@ -16,12 +16,16 @@ const RecipeContainer = ({recipeData}) => {
     return (
         <Fragment>
             <div className="recipeContainer wrapper">
+
+                
                 {
+                    
+
                     recipeData.map((currentData)=> {
                         const { foodName, foodImg, calories, ingredientList, recipeSource, key} = currentData;
                         return (
                             <div className="subContainer" key={key}>
-                                <i class="far fa-heart"></i>
+                                <i className="far fa-heart"></i>
                                 
                                 <h2>{foodName}</h2>
                                 

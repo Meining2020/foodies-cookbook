@@ -59,15 +59,16 @@ h1 {
 
 form {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     justify-content: center;
     align-items: center;
 }
 
+form
+
 
 input {
     width:50%;
-    margin: 0 2rem;
 }
 
 select {

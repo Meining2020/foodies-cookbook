@@ -1,6 +1,8 @@
 //import styles
 import '../styles/App.css';
 
+import uuid from 'react-uuid';
+
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
 //import hook
@@ -9,6 +11,7 @@ import {useEffect, useState} from 'react'
 import RecipeContainer from './RecipeContainer.js';
 
 import SelectionForm from './SelectionForm.js';
+import SavedRecipeContainer from './SavedRecipeContainer.js';
 
 const apiID = `2b60c807`;
 const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
@@ -21,6 +24,8 @@ function App() {
   const [allRecipe, setAllRecipe] = useState([]);
   const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
   const [showInput, setShowInput] = useState(false);
+  const [savedRecipe, setSavedRecipe] = useState([]);
+
 
   useEffect(() => {
     // console.log("Fetching data side-effect.");
@@ -29,7 +34,32 @@ function App() {
     getRecipe();
     // setUserInput('');
 
-  }, [query])
+  }, [query]);
+
+  // Referencing our firebase database
+  const dbRef = firebase.database().ref();
+  useEffect(() => {
+    dbRef.on('value', (response) => {
+      console.log(response);
+
+      const data = response.val();
+      console.log(data);
+
+
+      const recipeObjectArray = [];
+      for (let key in data) {
+        console.log(key);
+        const recipeObject = {
+          key: key,
+          name: data[key]
+        };
+        recipeObjectArray.push(recipeObject);
+      }
+      console.log(recipeObjectArray);
+      setSavedRecipe(recipeObjectArray);
+    })
+
+  }, []);
 
 //function to get data from API
   const getRecipe = () => {
@@ -43,15 +73,6 @@ function App() {
         app_key: apiKey,
       }
     );
-
-    // if (filterDiet) {
-    //   searchParams.append("diet", filterDiet);
-    // }
-
-    // if (filterMeal) {
-    //   searchParams.append("mealType", filterMeal);
-    // }
-
 
     url.search = searchParams;
     // console.log(url);
@@ -70,7 +91,7 @@ function App() {
         }
       })
       .then((jsonResponse) => {
-        // console.log(jsonResponse);
+        console.log(jsonResponse);
 
         const recipeArray = jsonResponse.hits;
         console.log(recipeArray);
@@ -80,7 +101,7 @@ function App() {
         // }
         
 
-        const newRecipes = recipeArray.map((currentRecipe, index) => {
+        const newRecipes = recipeArray.map((currentRecipe) => {
           return {
             foodName: currentRecipe.recipe.label,
             foodImg: currentRecipe.recipe.image,
@@ -89,15 +110,10 @@ function App() {
             recipeSource: currentRecipe.recipe.url,
             dietType: currentRecipe.recipe.dietLabels,
             mealType: currentRecipe.recipe.mealType,
-            key: index,
+            key: uuid(),
           }
         });
         console.log("api allRecipe", newRecipes);
-
-        // if (newRecipes.length > 0) {
-        //   console.log(newRecipes[0].dietType);
-        //   console.log(newRecipes[0].dietType.includes("Low-Fat"))
-        // }
 
         // const filteredRecipes = newRecipes.filter((allRecipe)=> {
         //   return allRecipe.foodImg;
@@ -118,13 +134,12 @@ function App() {
 
   //function to trigger API call once click submit
   const handleSubmitClick = (event) => {
-    event.preventDefault();
-    
+    event.preventDefault();   
     setQuery(userInput); 
     setShowInput(!showInput);
-
   }
 
+  //function to filter data based on user's diet choice
   const dietFilter = (chosenDiet) => {
 
     console.log("the chosen diet is: ", chosenDiet);
@@ -143,13 +158,30 @@ function App() {
     
   }
 
+  const handleAddRecipeClick = (recipeKey) => {
+    console.log("clicked");
+    console.log(recipeKey);
+    dbRef.push(recipeKey);
+  }
+
+
+  const handleRemoveRecipe = (recipeKey) => {
+    console.log(recipeKey);
+    dbRef.child(recipeKey).remove();
+  }
+
 
   return (
     <div className="App">
       <main>
         <header>
           <div className="wrapper">
+
+            <span><i className="fas fa-heart"></i></span>
+            
             <h1>Foodie's Cookbook!</h1>
+
+            <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe}/>
 
             {/* search area */}
             <form action="submit" className="search">
@@ -161,14 +193,14 @@ function App() {
               <button onClick={handleSubmitClick}><i className="fas fa-search"></i></button>
             </form>
 
-            <SelectionForm dietFilterFuntion={dietFilter}/>
+            <SelectionForm dietFilterFuntion={dietFilter} />
 
           </div>
 
         </header>
 
         {filteredDietRecipe.length > 0 
-          ? <RecipeContainer recipeData={filteredDietRecipe} />
+          ? <RecipeContainer recipeData={filteredDietRecipe} addRecipeFunction={handleAddRecipeClick}/>
           : <p>No Data</p>
         }
 
@@ -177,7 +209,7 @@ function App() {
       </main>
 
       <footer>
-        <p>Created by Meining @ Juno 2021</p>
+        <p>Created by Meining Cheng @ Juno 2021</p>
       </footer>
 
 
@@ -188,9 +220,13 @@ function App() {
 export default App;
 
 
+// have two function to onclick?
+
 //how to filter img (404 response): try search "pizza"
 
 //TO show button only apply to one
 
 // no result to show after search 
+
+
 

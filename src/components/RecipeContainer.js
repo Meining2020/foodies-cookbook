@@ -3,15 +3,21 @@ import RecipeDetails from './RecipeDetails.js';
 
 
 
-const RecipeContainer = ({recipeData}) => {
+const RecipeContainer = ({ recipeData, addRecipeFunction }) => {
     
 
     const [show, setShow] = useState(false);
+    const [save, setSave] = useState(false);
 
     const handleShow = () => {
         setShow(!show);
         // console.log(show);
     }
+
+    // const handleSaveClick = (event) => {
+    //     setSave(!save);
+    //     console.log(event.target);
+    // }
     
     return (
         <Fragment>
@@ -20,12 +26,23 @@ const RecipeContainer = ({recipeData}) => {
                 
                 {
                     
-
                     recipeData.map((currentData)=> {
                         const { foodName, foodImg, calories, ingredientList, recipeSource, key} = currentData;
                         return (
                             <div className="subContainer" key={key}>
-                                <i className="far fa-heart"></i>
+
+                                <span onClick={() => {addRecipeFunction(foodName)}} >
+                                    {
+                                        save ? <i className="fas fa-heart" ></i> 
+                                            : <i className="far fa-heart"></i>
+                                    }
+                                </span>
+
+                                {/* {
+                                    save ? <span><i className="fas fa-heart" ></i> </span>
+                                        : <span><i className="far fa-heart"></i></span>
+                                } */}
+                               
                                 
                                 <h2>{foodName}</h2>
                                 
@@ -37,10 +54,8 @@ const RecipeContainer = ({recipeData}) => {
                                 {show ? <RecipeDetails ingredientData={ingredientList} /> : ""}
 
                                 
-
-                                <a href={recipeSource} target="_blank">Recipe link</a>
+                                <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
                                 
-
                             </div>
                         )
                     })

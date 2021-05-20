@@ -1,13 +1,9 @@
 import { useState } from 'react';
-// import Select from 'react-select';
 
 const SelectionForm = (props) => {
 
     const { dietFilterFuntion } = props;
-
     const [filterDietChoice, setFilterDietChoice] = useState("placeholder");
-    // const [filterMeal, setFilterMeal] = useState();
-
 
     const handleDietSelection = (event) => {
         // console.log(event.target.value);
@@ -15,25 +11,12 @@ const SelectionForm = (props) => {
         setFilterDietChoice(selectedValue);
     }
 
-    // const handleMealSelection = (event) => {
-    //     console.log(event.target.value);
-    //     const selectedValue = event.target.value;
-    //     setFilterMeal(selectedValue);
-    // }
-
-
     const handleSubmitClick = (event) => {
         event.preventDefault();
-
         dietFilterFuntion(filterDietChoice);
-
     }
 
-
-
     return (
-
-
         <>
             {/* input and selection area */}
             <form action="submit">
@@ -48,15 +31,6 @@ const SelectionForm = (props) => {
                     <option value="Low-Sodium">Low-Sodium</option>
                     <option value="all">Just show me all!</option>
                 </select>
-
-                {/* <select name="mealType" id="mealType" onChange={handleMealSelection}>
-                    <option value="">Select meal type</option>
-                    <option value="Breakfast">Breakfast</option>
-                    <option value="Lunch">Lunch</option>
-                    <option value="Dinner">Dinner</option>
-                    <option value="Snack">Snack</option>
-                    <option value="Teatime">Teatime</option>
-                </select> */}
 
                 <button onClick={handleSubmitClick}><i className="fas fa-filter"></i></button>
 

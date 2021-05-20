@@ -1,69 +1,20 @@
-import {Fragment, useState} from 'react';
-import RecipeDetails from './RecipeDetails.js';
+
+import RecipeCard from './RecipeCard.js';
 
 
-
-const RecipeContainer = ({ recipeData, addRecipeFunction }) => {
-    
-
-    const [show, setShow] = useState(false);
-    const [save, setSave] = useState(false);
-
-    const handleShow = () => {
-        setShow(!show);
-        // console.log(show);
-    }
-
-    const handleSaveClick = () => {
-        setSave(!save);
-        // console.log(event.target);
-    }
-    
+const RecipeContainer = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe }) => {   
     return (
-        <Fragment>
-            <div className="recipeContainer wrapper">
-
-                
-                {
-                    
+        <>
+            <div className="recipeContainer wrapper">               
+                {                   
                     recipeData.map((currentData)=> {
-                        const { foodName, foodImg, calories, ingredientList, recipeSource, key} = currentData;
-                        // console.log(currentData);
                         return (
-                            <div className="subContainer" key={key}>
-
-                                <span onClick={() => { addRecipeFunction(currentData)
-                                    handleSaveClick()}} >
-                                    {
-                                        save ? <i className="fas fa-heart" ></i> 
-                                            : <i className="far fa-heart"></i>
-                                    }
-                                </span>
-
-                                {/* {
-                                    save ? <span><i className="fas fa-heart" ></i> </span>
-                                        : <span><i className="far fa-heart"></i></span>
-                                } */}
-                               
-                                
-                                <h2>{foodName}</h2>
-                                
-                                <img src={foodImg} alt="" />
-                                <p>{parseInt(calories)} Cal</p>
-
-                                <button onClick={handleShow}>Ingredient List</button>
-                    
-                                {show ? <RecipeDetails ingredientData={ingredientList} /> : ""}
-
-                                
-                                <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
-                                
-                            </div>
+                            <RecipeCard recipeData={currentData} key={currentData.key} addRecipeFunction={addRecipeFunction} savedRecipes= {savedRecipes} removeRecipe={removeRecipe}/>                          
                         )
                     })
                 }
             </div>
-        </Fragment>
+        </>
     );
 
 };

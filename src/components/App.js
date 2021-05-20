@@ -1,7 +1,5 @@
 //import styles
 import '../styles/App.css';
-
-
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
 //import hook
@@ -17,20 +15,17 @@ const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 
 
 function App() {
-
+  //define useStates
   const [userInput, setUserInput] = useState("");
   const [query, setQuery] = useState("");
   const [allRecipe, setAllRecipe] = useState([]);
   const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [savedRecipe, setSavedRecipe] = useState([]);
+  const [hasSeached, setHasSearched] = useState(false);
 
 
   useEffect(() => {
-    // console.log("Fetching data side-effect.");
-    // console.log(userInput);
-
-    // getRecipe();
     // setUserInput('');
 
     const url = new URL(`https://api.edamam.com/search`);
@@ -64,46 +59,26 @@ function App() {
         const recipeArray = jsonResponse.hits;
         // console.log(recipeArray);
 
-        // if (recipeArray.length > 0) {
-        //   console.log(recipeArray[0].allRecipe.mealType[0]);
-        // }
-
-
         const newRecipes = recipeArray.map((currentRecipe) => {
+          const {recipe} = currentRecipe;
           return {
-            foodName: currentRecipe.recipe.label,
-            foodImg: currentRecipe.recipe.image,
-            calories: currentRecipe.recipe.calories,
-            ingredientList: currentRecipe.recipe.ingredientLines,
-            recipeSource: currentRecipe.recipe.url,
-            dietType: currentRecipe.recipe.dietLabels,
-            mealType: currentRecipe.recipe.mealType,
-            key: currentRecipe.recipe.uri
+            foodName: recipe.label,
+            foodImg: recipe.image,
+            calories: recipe.calories,
+            ingredientList: recipe.ingredientLines,
+            recipeSource: recipe.url,
+            dietType: recipe.dietLabels,
+            key: recipe.uri
           }
         });
-        // console.log("api allRecipe", newRecipes);
-
-        // const filteredRecipes = newRecipes.filter((allRecipe)=> {
-        //   return allRecipe.foodImg;
-        // })
-
-
-        //stretch goal to work on later
-        // const completedRecipeArray = ()=> {
-        //   newRecipes.map((recipe) => {
-        //     const recipeKey = recipe.key;
-        //     console.log(savedRecipe.indexOf(recipeKey));
-
-        //     return recipeKey;
-        //   })
-        // }
-        // completedRecipeArray();
+        
 
         setAllRecipe(newRecipes);
 
         setFilteredDietRecipe(newRecipes);
-      })
 
+        if (query) setHasSearched(true);
+      })
   }, [query]);
 
   // Referencing our firebase database
@@ -113,11 +88,8 @@ function App() {
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
       // console.log(response);
-
       const data = response.val();
       // console.log(data);
-
-
       const recipeObjectArray = [];
       for (let key in data) {
         // console.log(key);
@@ -135,13 +107,6 @@ function App() {
 
   }, []);
 
-//function to get data from API
-  // const getRecipe = () => {
-
-    
-      
-  // }
-
   //function to get user's input
   const handleUserInput = (event) => {
     let inputValue = event.target.value;
@@ -157,9 +122,7 @@ function App() {
 
   //function to filter data based on user's diet choice
   const dietFilter = (chosenDiet) => {
-
     // console.log("the chosen diet is: ", chosenDiet);
-
     if (chosenDiet === "all") {
       setFilteredDietRecipe(allRecipe);
     } else {
@@ -170,35 +133,26 @@ function App() {
       });
       // console.log("filtered array based on diet choice: ", filteredRecipeArray);
       setFilteredDietRecipe(filteredRecipeArray);
-    }
-    
+    }   
   }
 
   const handleAddRecipeClick = (recipeKey) => {
-    // console.log("clicked");
     // console.log(recipeKey);
     dbRef.push(recipeKey);
   }
-
 
   const handleRemoveRecipe = (recipeKey) => {
     // console.log(recipeKey);
     dbRef.child(recipeKey).remove();
   }
-
-
   return (
     <div className="App">
       <main>
         <header>
           <div className="wrapper">
-
-            <span><i className="fas fa-heart"></i></span>
-
             <h1>Foodie's Cookbook!</h1>
-
+            {/* show list of saved recipe */}
             <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe}/>
-
             {/* search area */}
             <form action="submit" className="search">
               {/* label for screen readers only*/}
@@ -215,19 +169,16 @@ function App() {
 
         </header>
 
-        {filteredDietRecipe.length > 0 
-          ? <RecipeContainer recipeData={filteredDietRecipe} addRecipeFunction={handleAddRecipeClick}/>
-          : <p>No Data</p>
+        {hasSeached && (filteredDietRecipe.length > 0 
+          ? <RecipeContainer recipeData={filteredDietRecipe} addRecipeFunction={handleAddRecipeClick} savedRecipes={savedRecipe} removeRecipe={handleRemoveRecipe}/>
+          : <p>No Data</p>)
         }
 
-        {/* <RecipeContainer recipeData={filteredDietRecipe} /> */}
-        
       </main>
 
       <footer>
         <p>Created by Meining Cheng @ Juno 2021</p>
       </footer>
-
 
     </div>
   );
@@ -235,14 +186,6 @@ function App() {
 
 export default App;
 
-
-// have two function to onclick?
-
-//how to filter img (404 response): try search "pizza"
-
-//TO show button only apply to one
-
-// no result to show after search 
 
 
 

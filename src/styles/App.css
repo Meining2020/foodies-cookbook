@@ -32,10 +32,7 @@ html {
 }
 
 .App{
-    
     background-color: #fae1dd;
-
-
 }
 
 .wrapper {
@@ -79,6 +76,7 @@ h3 {
     text-align: center;
     color: salmon;
     font-family: 'Pattaya', sans-serif;
+    padding: 1rem;
 }
 
 .recipeList {
@@ -172,6 +170,7 @@ p {
     text-align: center;
     color: crimson;
     margin-top: 1rem;   
+    padding: 0.5rem;
 }
 
 button, a {

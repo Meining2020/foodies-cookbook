@@ -57,7 +57,7 @@ function App() {
         // console.log(jsonResponse);
 
         const recipeArray = jsonResponse.hits;
-        // console.log(recipeArray);
+        console.log(recipeArray);
 
         const newRecipes = recipeArray.map((currentRecipe) => {
           const {recipe} = currentRecipe;

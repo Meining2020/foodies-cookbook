@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import RecipeDetails from './RecipeDetails.js';
+import selfie from '../assets/notfound_placeholder.svg';
 
 const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe}) => {
 
@@ -37,7 +38,7 @@ const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe}
 
             <h2>{foodName}</h2>
 
-            <img src={foodImg} alt="" />
+            <img src={foodImg} alt="" onError={(event) => { event.target.src = selfie }}/>
             <p>{parseInt(calories)} Cal</p>
 
             <button onClick={handleShow}>Ingredient List</button>

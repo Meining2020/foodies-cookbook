@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-const SelectionForm = (props) => {
+const SelectionForm = ({dietFilterFuntion}) => {
 
-    const { dietFilterFuntion } = props;
     const [filterDietChoice, setFilterDietChoice] = useState("placeholder");
 
     const handleDietSelection = (event) => {
@@ -19,8 +18,7 @@ const SelectionForm = (props) => {
     return (
         <>
             {/* input and selection area */}
-            <form action="submit">
-
+            <form >
                 <select name="dietType" id="dietType" onChange={handleDietSelection} value={filterDietChoice}>
                     <option value="placeholder" disabled>Select diet type</option>
                     <option value="Balanced">Balanced</option>
@@ -32,8 +30,10 @@ const SelectionForm = (props) => {
                     <option value="all">Just show me all!</option>
                 </select>
 
-                <button onClick={handleSubmitClick}><i className="fas fa-filter"></i></button>
-
+                <button onClick={handleSubmitClick}>
+                    <i className="fas fa-filter" aria-hidden="true"></i>
+                    <span className="srOnly">click to filter by diet</span>
+                </button>
             </form>
         </>
     )

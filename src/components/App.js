@@ -3,35 +3,42 @@ import '../styles/App.css';
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
 //import hook
-import {useEffect, useState} from 'react'
-//import RecipeContainer
-import RecipeContainer from './RecipeContainer.js';
+import { useEffect, useState } from 'react'
+//import spinner
+import { css } from "@emotion/react";
+import FadeLoader from "react-spinners/FadeLoader";
 
+//import Components
+import RecipeCard from './RecipeCard.js';
 import SelectionForm from './SelectionForm.js';
 import SavedRecipeContainer from './SavedRecipeContainer.js';
 
 const apiID = `2b60c807`;
 const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 
+const override = css`
+  display: block;
+  margin: 3rem auto;
+`;
 
 function App() {
   //define useStates
   const [userInput, setUserInput] = useState("");
   const [query, setQuery] = useState("");
+  const [noInput, setNoInput] = useState(false);
   const [allRecipe, setAllRecipe] = useState([]);
   const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
-  const [showInput, setShowInput] = useState(false);
   const [savedRecipe, setSavedRecipe] = useState([]);
   const [hasSeached, setHasSearched] = useState(false);
-
+  const [isloading, setIsLoading] = useState(false);
+  
 
   useEffect(() => {
     // setUserInput('');
-
     const url = new URL(`https://api.edamam.com/search`);
     const searchParams = new URLSearchParams(
       {
-        q: userInput,
+        q: query,
         app_id: apiID,
         app_key: apiKey,
       }
@@ -40,6 +47,8 @@ function App() {
     url.search = searchParams;
     // console.log(url);
     // console.log(userInput);
+
+    setIsLoading(true);
 
     fetch(url)
       .then((response) => {
@@ -60,7 +69,7 @@ function App() {
         console.log(recipeArray);
 
         const newRecipes = recipeArray.map((currentRecipe) => {
-          const {recipe} = currentRecipe;
+          const { recipe } = currentRecipe;
           return {
             foodName: recipe.label,
             foodImg: recipe.image,
@@ -71,19 +80,27 @@ function App() {
             key: recipe.uri
           }
         });
-        
+
 
         setAllRecipe(newRecipes);
 
         setFilteredDietRecipe(newRecipes);
 
         if (query) setHasSearched(true);
+
+        setTimeout(() => {
+          setIsLoading(false);       
+        }, 500);
+
       })
   }, [query]);
+
+
 
   // Referencing our firebase database
   const dbRef = firebase.database().ref();
   useEffect(() => {
+
     //redefine to clear warning
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
@@ -115,9 +132,13 @@ function App() {
 
   //function to trigger API call once click submit
   const handleSubmitClick = (event) => {
-    event.preventDefault();   
-    setQuery(userInput); 
-    setShowInput(!showInput);
+    event.preventDefault();
+    setQuery(userInput);
+    if (userInput) {
+      setNoInput(false);
+    } else {
+      setNoInput(true);
+    }
   }
 
   //function to filter data based on user's diet choice
@@ -127,13 +148,13 @@ function App() {
       setFilteredDietRecipe(allRecipe);
     } else {
 
-      const filteredRecipeArray = allRecipe.filter((currentRecipe)=> {
+      const filteredRecipeArray = allRecipe.filter((currentRecipe) => {
         //check if array contains user's select choice
         return currentRecipe.dietType.includes(chosenDiet);
       });
       // console.log("filtered array based on diet choice: ", filteredRecipeArray);
       setFilteredDietRecipe(filteredRecipeArray);
-    }   
+    }
   }
 
   const handleAddRecipeClick = (recipeKey) => {
@@ -152,26 +173,55 @@ function App() {
           <div className="wrapper">
             <h1>Foodie's Cookbook!</h1>
             {/* show list of saved recipe */}
-            <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe}/>
+            <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe} />
             {/* search area */}
             <form action="submit" className="search">
               {/* label for screen readers only*/}
               <label htmlFor="input" className="srOnly">input keyword to search recipes</label>
               {/* search bar*/}
-              <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search Food" disabled={showInput}/>
+              <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search food" />
+
               {/* submit button */}
-              <button onClick={handleSubmitClick}><i className="fas fa-search"></i></button>
+              <button onClick={handleSubmitClick}>
+                <i className="fas fa-search" aira-hidden="true"></i>
+                <span className="srOnly">click to start search</span>
+              </button>
+
             </form>
-
-            <SelectionForm dietFilterFuntion={dietFilter} />
-
+            {/* error message for no input */}
+            {
+              noInput
+                ? <p>Please enter a food!</p>
+                : ""
+            }
+            {/* filter */}
+            {
+              hasSeached && !noInput
+                ? <SelectionForm dietFilterFuntion={dietFilter} />
+                : ""
+            }
           </div>
-
         </header>
 
-        {hasSeached && (filteredDietRecipe.length > 0 
-          ? <RecipeContainer recipeData={filteredDietRecipe} addRecipeFunction={handleAddRecipeClick} savedRecipes={savedRecipe} removeRecipe={handleRemoveRecipe}/>
-          : <p>No Data</p>)
+        {hasSeached && !noInput && (filteredDietRecipe.length > 0
+          ?
+          <div className="recipeContainer wrapper">
+            {
+              isloading
+                ?
+                <FadeLoader css={override} color={'#E82915'} size={150} />
+                :
+                filteredDietRecipe.map((currentData) => {
+                  return (
+                    <RecipeCard recipeData={currentData} key={currentData.key} addRecipeFunction={handleAddRecipeClick} savedRecipes={savedRecipe} removeRecipe={handleRemoveRecipe} />
+
+
+                  )
+                })
+            }
+          </div>
+          :
+          <p>No Matching Result!</p>)
         }
 
       </main>

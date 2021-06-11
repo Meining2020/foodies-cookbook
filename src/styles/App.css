@@ -245,10 +245,6 @@ html {
     font-size: 62.5%;
 }
 
-/* styling for scroll bar */
-
-
-
 .App {
     background-color: #fae1dd;
 }
@@ -258,6 +254,19 @@ html {
     width: 90%;
     margin: 0 auto;
 }
+
+header {
+    background-image: url(../assets/hermes-rivera-iAJC7d2YVyI-unsplash.jpg);
+    height: 80vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+   
+}
+
+nav ul {
+    display: flex;
+}
+
 
 main {
     min-height: calc(100vh - 6rem);
@@ -355,7 +364,7 @@ h2 {
     font-weight: 500;
 }
 
-.recipeContainer {
+.recipeContainer ul{
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -378,7 +387,7 @@ h2 {
     font-size: 3rem;
     color: red;
     position: absolute;
-    right: 1rem;
+    right: 0rem;
     top: -1rem;
     background-color: transparent;
     box-shadow: none;
@@ -388,10 +397,10 @@ h2 {
 
 li {
     list-style: none;
-    background-color: white;
+    /* background-color: white;
     margin: 2rem 1rem;
     box-shadow: 10px 10px 10px black;
-    padding: 1rem;
+    padding: 1rem; */
 }
 
 p {
@@ -402,8 +411,11 @@ p {
     font-size: 2.2rem;
 }
 
-button,
 a {
+    display: block;
+}
+
+button {
     background-color: #E82915;
     color: white;
     padding: 1rem;
@@ -442,5 +454,6 @@ footer p {
     padding: 1rem 0;
     color: darkslategray;
 }
+
 
 

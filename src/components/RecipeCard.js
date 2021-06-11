@@ -1,10 +1,15 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
 import RecipeDetails from './RecipeDetails.js';
 import notFoundPhoto from '../assets/notfound_placeholder.svg';
 
+
+
 const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe }) => {
 
-    const { foodName, foodImg, calories, ingredientList, recipeSource, key } = recipeData;
+    const { foodName, foodImg, calories, ingredientList, recipeSource, key, totalNutrients, totalDaily, totalWeight } = recipeData;
 
     const [show, setShow] = useState(false);
 
@@ -29,7 +34,8 @@ const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe 
     // }).includes(key);
 
     return (
-        <div className="subContainer">
+        // <Router>
+        <li className="subContainer">
 
             {
                 isSaved
@@ -50,15 +56,32 @@ const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe 
             <img src={foodImg} alt={`${foodName}`} onError={(event) => { event.target.src = notFoundPhoto; event.target.alt = "photo not found" }} />
             <p>{parseInt(calories)} Cal</p>
 
-            <button onClick={handleShow}>Ingredient List</button>
+            {/* <Link to={`/recipeDetails/${key}`}>
+                    <button onClick={handleShow}>Nutrition Facts</button>
+                </Link> */}
 
-            {show ? <RecipeDetails ingredientData={ingredientList} /> : ""}
+
+            <Link to={{
+                pathname: `/recipeDetails/${key}`,
+                state: {
+                    totalNutrients: totalNutrients,
+                    totalDaily: totalDaily,
+                    totalWeight: totalWeight
+                }
+            }}>
+                <button onClick={handleShow}>Nutrition Facts</button>
+            </Link>
+
+
+
+
+            {/* {show ? <RecipeDetails ingredientData={ingredientList} nutrientsData={totalNutrients} totalWeight={totalWeight}/> : ""} */}
 
             <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
 
-            <button>Nutrition Facts</button>
 
-        </div>
+        </li>
+
     )
 }
 

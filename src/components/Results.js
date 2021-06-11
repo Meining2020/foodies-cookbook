@@ -1,8 +1,10 @@
 
-import { useEffect, useState } from 'react'
-// importing our firebase configuration
-import firebase from "../config/firebase.js";
+import { useEffect, useState } from 'react';
 
+import { useParams } from 'react-router-dom';
+
+
+import { Link } from 'react-router-dom';
 //import spinner
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
@@ -10,6 +12,7 @@ import FadeLoader from "react-spinners/FadeLoader";
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
+import SavedRecipeContainer from './SavedRecipeContainer.js';
 
 const apiID = `2b60c807`;
 const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
@@ -19,15 +22,17 @@ const override = css`
 `;
 
 
-const Results = (props) => {
+const Results = ({savedRecipes}) => {
 
     const [allRecipe, setAllRecipe] = useState([]);
     const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
-    const [savedRecipe, setSavedRecipe] = useState([]);
+    // const [savedRecipe, setSavedRecipe] = useState([]);
     const [hasSeached, setHasSearched] = useState(false);
     const [isloading, setIsLoading] = useState(false);
 
-    const query = props.match.params.query;
+    // console.log(props)
+    // const query = props.match.params.query;
+    const {query} = useParams();
 
     useEffect(() => {
         // setUserInput('');
@@ -97,34 +102,6 @@ const Results = (props) => {
     }, [query]);
 
 
-    // Referencing our firebase database
-    const dbRef = firebase.database().ref();
-    useEffect(() => {
-
-        //redefine to clear warning
-        const dbRef = firebase.database().ref();
-        dbRef.on('value', (response) => {
-            // console.log(response);
-            const data = response.val();
-            // console.log(data);
-            const recipeObjectArray = [];
-            for (let key in data) {
-                // console.log(key);
-                const recipeObject = {
-                    key: key,
-                    name: data[key].foodName,
-                    saveState: true,
-                    recipeKey: data[key].key
-                };
-                recipeObjectArray.push(recipeObject);
-            }
-
-            setSavedRecipe(recipeObjectArray);
-        })
-
-    }, []);
-
-
     //function to filter data based on user's diet choice
     const dietFilter = (chosenDiet) => {
         // console.log("the chosen diet is: ", chosenDiet);
@@ -141,17 +118,7 @@ const Results = (props) => {
         }
     }
 
-
-
-    const handleAddRecipeClick = (recipeKey) => {
-        // console.log(recipeKey);
-        dbRef.push(recipeKey);
-    }
-
-    const handleRemoveRecipe = (recipeKey) => {
-        // console.log(recipeKey);
-        dbRef.child(recipeKey).remove();
-    }
+    
 
     return (
         <>
@@ -175,9 +142,9 @@ const Results = (props) => {
                                         <RecipeCard 
                                         recipeData={currentData} 
                                         key={currentData.key} 
-                                        addRecipeFunction={handleAddRecipeClick} 
-                                        savedRecipes={savedRecipe} 
-                                        removeRecipe={handleRemoveRecipe} 
+                                        // addRecipeFunction={handleAddRecipeClick} 
+                                        savedRecipes={savedRecipes} 
+                                        // removeRecipe={handleRemoveRecipe} 
                                         />
 
                                     )
@@ -188,6 +155,8 @@ const Results = (props) => {
                 :
                 <p>No Matching Result!</p>)
             }
+
+            {/* <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe} /> */}
 
         </>
     )

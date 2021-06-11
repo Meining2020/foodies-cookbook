@@ -257,19 +257,41 @@ html {
 
 header {
     background-image: url(../assets/hermes-rivera-iAJC7d2YVyI-unsplash.jpg);
-    height: 80vh;
+    height: calc(100vh - 128px);
     background-size: cover;
-    background-repeat: no-repeat;
-   
+    background-repeat: no-repeat; 
+}
+
+li {
+    list-style: none;
+    /* background-color: white;
+    margin: 2rem 1rem;
+    box-shadow: 10px 10px 10px black;
+    padding: 1rem; */
+}
+
+a {
+    text-decoration: none;
 }
 
 nav ul {
     display: flex;
+    justify-content: flex-end;
 }
 
+.navButton {
+    font-size: 3rem;
+    color: red;
+    background-color: transparent;
+    box-shadow: none;
+    position:relative;
+}
 
-main {
-    min-height: calc(100vh - 6rem);
+.recipeAmount {
+    font-size: 2rem;
+    font-weight: bold;
+    position: absolute;
+    top: 1rem;
 }
 
 h1 {
@@ -280,32 +302,30 @@ h1 {
     font-family: "Pattaya", sans-serif;
 }
 
-/* .savedListContainer {
-position: fixed;
-} */
 
 .savedRecipeList {
     width: 100%;
-    position: fixed;
-    z-index: 1;
-    background-color: #d8e2dc;
+    
+    /* position: fixed;
+    z-index: 1; */
+    /* background-color: #d8e2dc; */
     top: 8rem;
-    right: -100%;
-    transition: right 1s;
+    /* right: -100%; */
+    /* transition: right 1s; */
 }
 
-.fixedHeart {
+/* .fixedHeart {
     z-index: 2;
-}
+} */
 
-.savedRecipeList  ul {
+/* .savedRecipeList  ul {
     max-height: calc(100vh - 185px);
     overflow-y: auto;
-}
+} */
 
-.toShow {
+/* .toShow {
     right: 0;
-}
+} */
 
 h3 {
     margin: 1rem 0;
@@ -383,25 +403,7 @@ h2 {
     position: relative;
 }
 
-.heartButton {
-    font-size: 3rem;
-    color: red;
-    position: absolute;
-    right: 0rem;
-    top: -1rem;
-    background-color: transparent;
-    box-shadow: none;
-}
 
-
-
-li {
-    list-style: none;
-    /* background-color: white;
-    margin: 2rem 1rem;
-    box-shadow: 10px 10px 10px black;
-    padding: 1rem; */
-}
 
 p {
     text-align: center;
@@ -431,11 +433,11 @@ button, i, a {
     transition: all .5s ease;
 }
 
-.heartButton:hover, .heartButton:focus  {
+.navButton:hover, .navButton:focus  {
     background-color: transparent;
 }
 
-.heartButton:hover i, .heartButton:focus i {
+.navButton:hover i, .navButton:focus i {
     transform: scale(1.2);
 }
 
@@ -444,7 +446,7 @@ button:hover, button:focus {
 }
 
 a:hover, a:focus {
-    color: gold;
+    color: rgb(255, 136, 0);
 }
 
 

@@ -1,18 +1,13 @@
 
 import { useEffect, useState } from 'react';
-
 import { useParams } from 'react-router-dom';
 
-
-import { Link } from 'react-router-dom';
 //import spinner
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
-
-import SavedRecipeContainer from './SavedRecipeContainer.js';
 
 const apiID = `2b60c807`;
 const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
@@ -21,17 +16,13 @@ const override = css`
     margin: 3rem auto;
 `;
 
-
 const Results = ({savedRecipes}) => {
-
     const [allRecipe, setAllRecipe] = useState([]);
     const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
     // const [savedRecipe, setSavedRecipe] = useState([]);
     const [hasSeached, setHasSearched] = useState(false);
     const [isloading, setIsLoading] = useState(false);
 
-    // console.log(props)
-    // const query = props.match.params.query;
     const {query} = useParams();
 
     useEffect(() => {
@@ -46,8 +37,6 @@ const Results = ({savedRecipes}) => {
         );
 
         url.search = searchParams;
-        // console.log(url);
-        // console.log(userInput);
 
         setIsLoading(true);
 
@@ -88,7 +77,7 @@ const Results = ({savedRecipes}) => {
 
                 setAllRecipe(newRecipes);
 
-                console.log(newRecipes)
+                // console.log(newRecipes)
 
                 setFilteredDietRecipe(newRecipes);
 
@@ -116,9 +105,7 @@ const Results = ({savedRecipes}) => {
             // console.log("filtered array based on diet choice: ", filteredRecipeArray);
             setFilteredDietRecipe(filteredRecipeArray);
         }
-    }
-
-    
+    } 
 
     return (
         <>
@@ -155,8 +142,6 @@ const Results = ({savedRecipes}) => {
                 :
                 <p>No Matching Result!</p>)
             }
-
-            {/* <SavedRecipeContainer recipeListData={savedRecipe} removeRecipeFunction={handleRemoveRecipe} /> */}
 
         </>
     )

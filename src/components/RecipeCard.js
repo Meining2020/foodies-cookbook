@@ -1,26 +1,15 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
+import { Link } from 'react-router-dom';
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
 
-import RecipeDetails from './RecipeDetails.js';
 import notFoundPhoto from '../assets/notfound_placeholder.svg';
 
+const RecipeCard = ({ recipeData, savedRecipes }) => {
 
+    const { foodName, foodImg, calories, recipeSource, key, totalNutrients, totalDaily, totalWeight } = recipeData;
 
-const RecipeCard = ({ recipeData, savedRecipes}) => {
-
-    const { foodName, foodImg, calories, ingredientList, recipeSource, key, totalNutrients, totalDaily, totalWeight } = recipeData;
-
-    // const [show, setShow] = useState(false);
-
-    // const handleShow = () => {
-    //     setShow(!show);
-    // }
-
-    // Referencing our firebase database
+    // Referencing firebase database
     const dbRef = firebase.database().ref();
     const handleAddRecipe = (recipeKey) => {
         // console.log(recipeKey);
@@ -55,12 +44,12 @@ const RecipeCard = ({ recipeData, savedRecipes}) => {
             {
                 isSaved
                     ?
-                    <button className="heartButton" onClick={() => { handleRemoveRecipe(savedRecipe.key) }}>
+                    <button className="saveControlButton iconButton" onClick={() => { handleRemoveRecipe(savedRecipe.key) }}>
                         <i className="fas fa-heart" aria-hidden="true"></i>
                         <span className="srOnly">Click to remove recipe remove saved recipe list</span>
                     </button>
                     :
-                    <button className="heartButton" onClick={() => { handleAddRecipe(recipeData) }}>
+                    <button className="saveControlButton iconButton" onClick={() => { handleAddRecipe(recipeData) }}>
                         <i className="far fa-heart" aria-hidden="true"></i>
                         <span className="srOnly">Click to add recipe to saved recipe list</span>
                     </button>
@@ -70,11 +59,6 @@ const RecipeCard = ({ recipeData, savedRecipes}) => {
 
             <img src={foodImg} alt={`${foodName}`} onError={(event) => { event.target.src = notFoundPhoto; event.target.alt = "photo not found" }} />
             <p>{Math.round(calories)} Cal</p>
-
-            {/* <Link to={`/recipeDetails/${key}`}>
-                    <button onClick={handleShow}>Nutrition Facts</button>
-                </Link> */}
-
 
             <Link to={{
                 pathname: `/recipeDetails/${key}`,
@@ -86,11 +70,6 @@ const RecipeCard = ({ recipeData, savedRecipes}) => {
             }}>
                 <button>Nutrition Facts</button>
             </Link>
-
-
-
-
-            {/* {show ? <RecipeDetails ingredientData={ingredientList} nutrientsData={totalNutrients} totalWeight={totalWeight}/> : ""} */}
 
             <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
 

@@ -268,10 +268,12 @@ li {
     margin: 2rem 1rem;
     box-shadow: 10px 10px 10px black;
     padding: 1rem; */
+    border: 1px solid crimson
 }
 
 a {
-    text-decoration: none;
+    /* text-decoration: none; */
+    color:rgb(185, 60, 11);
 }
 
 nav ul {
@@ -279,13 +281,64 @@ nav ul {
     justify-content: flex-end;
 }
 
-.navButton {
+nav ul li {
+    border: none;
+}
+
+p {
+    text-align: center;
+    color: #A70C2B;
+    margin-top: 1rem;
+    padding: 0.5rem;
+    font-size: 2.2rem;
+}
+
+
+button {
+    background-color: #E82915;
+    color: white;
+    padding: 1rem;
+    border: none;
+    border-radius: 5%;
+    margin: 1rem;
+    box-shadow: 5px 5px 5px goldenrod;
+    cursor: pointer;
+    font-family: "PT Sans", sans-serif;
+}
+
+button, i, a {
+    transition: all .5s ease;
+}
+
+button:hover, button:focus {
+    background-color: #9e052e;
+}
+
+a:hover, a:focus {
+    color: rgb(255, 136, 0);
+}
+
+.iconButton {
     font-size: 3rem;
     color: red;
     background-color: transparent;
     box-shadow: none;
+}
+
+.iconButton:hover, .iconButton:focus  {
+    background-color: transparent;
+}
+
+.iconButton:hover i, .iconButton:focus i {
+    transform: scale(1.1);
+    color: #9e052e;
+}
+
+
+.navButton {
     position:relative;
 }
+
 
 .recipeAmount {
     font-size: 2rem;
@@ -303,33 +356,23 @@ h1 {
 }
 
 
-.savedRecipeList {
+.savedRecipeContainer {
     width: 100%;
-    
-    /* position: fixed;
-    z-index: 1; */
-    /* background-color: #d8e2dc; */
     top: 8rem;
-    /* right: -100%; */
-    /* transition: right 1s; */
 }
 
-/* .fixedHeart {
-    z-index: 2;
-} */
+.savedRecipeList {
+    /* display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    text-align: center;
+}
 
-/* .savedRecipeList  ul {
-    max-height: calc(100vh - 185px);
-    overflow-y: auto;
-} */
 
-/* .toShow {
-    right: 0;
-} */
-
-h3 {
+h3, caption {
     margin: 1rem 0;
-    font-size: 2.5rem;
+    font-size: 3rem;
     text-align: center;
     color: #E82915;
     font-family: "Pattaya", sans-serif;
@@ -369,10 +412,6 @@ select, footer, p, li {
     font-family: "PT Sans", sans-serif;
 }
 
-.far,
-.fas {
-    cursor: pointer;
-}
 
 h2 {
     font-size: 3rem;
@@ -403,55 +442,66 @@ h2 {
     position: relative;
 }
 
-
-
-p {
-    text-align: center;
-    color: #A70C2B;
-    margin-top: 1rem;
-    padding: 0.5rem;
-    font-size: 2.2rem;
+.saveControlButton {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    font: 2rem;
 }
 
-a {
-    display: block;
+
+/* Nutrition fact page */
+table {
+    margin: 2rem auto;
 }
 
-button {
-    background-color: #E82915;
-    color: white;
+table {
+  border-collapse: collapse; 
+  /* border-spacing: 0rem; */
+  border: solid 1px red;
+  
+}
+
+tbody {
+  border-top: 1rem solid transparent;
+  
+}
+
+tr::before {
+  height: 4rem;
+  display: table-row;
+  content: '';
+}
+
+
+ td, th {
+    font-size: 2rem;
     padding: 1rem;
-    border: none;
-    border-radius: 5%;
-    margin: 1rem;
-    box-shadow: 5px 5px 5px goldenrod;
-    cursor: pointer;
-    font-family: "PT Sans", sans-serif;
 }
 
-button, i, a {
-    transition: all .5s ease;
+
+th {
+    text-align: left;
 }
 
-.navButton:hover, .navButton:focus  {
-    background-color: transparent;
+th a {
+    color: black;
 }
 
-.navButton:hover i, .navButton:focus i {
-    transform: scale(1.2);
+td {
+    padding: 0 1rem;
 }
 
-button:hover, button:focus {
-    background-color: #fd5b86;
-}
-
-a:hover, a:focus {
-    color: rgb(255, 136, 0);
-}
 
 
 /* footer styling*/
+
+footer {
+background-color: rgb(245, 222, 191);
+}
+
 footer p {
+    font-size:1.8rem;
     margin-top: 2rem;
     padding: 1rem 0;
     color: darkslategray;

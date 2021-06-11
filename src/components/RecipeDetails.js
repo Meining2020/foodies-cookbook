@@ -1,23 +1,3 @@
-// const RecipeDetails = ({ingredientData}) => {
-
-
-    
-//     return (
-//             <ul className="ingredients">
-//                 {
-//                     //map through ingredient list to show each ingredient 
-//                     ingredientData.map((ingredient, index) => {
-//                         return (
-//                             <li key={index}>{index + 1}. {ingredient}</li>
-//                         )
-//                     })
-//                 }
-//                 <p>test</p>
-//             </ul>
-//     )
-// }
-
-import { Link } from 'react-router-dom';
 
 const RecipeDetails = (props) => {
     console.log(props)
@@ -25,44 +5,20 @@ const RecipeDetails = (props) => {
     console.log(props.location.state)
     const {totalNutrients, totalWeight, totalDaily, query} = props.location.state;
 
-    // const {
-    //     ENERC_KCAL,
-    //     FAT,
-    //     FASAT,
-    //     FATRN,
-    //     CHOLE,
-    //     NA,
-    //     CHOCDF,
-    //     FIBTG,
-    //     SUGAR,
-    //     PROCNT,
-    //     K,
-    //     VITA_RAE,
-    //     VITC,
-    //     CA,
-    //     FE
-    // } = totalNutrients;
-    
-    // console.log(totalNutrients.ENERC_KCAL.quantity)
-    
-    
-
-
-
     return (
-        
         <div className="wrapper">
 
             <table>
                 <caption>Nutrition Facts</caption>
 
-                <thead>per {totalWeight}g</thead>
+                <thead><th colspan="3">per {Math.round(totalWeight)}g</th></thead>
+
                 <tbody>
                     <tr>
 
-                        <th>Calories {totalNutrients.ENERC_KCAL.quantity}</th>
+                        <th>Calories {Math.round(totalNutrients.ENERC_KCAL.quantity)}</th>
                         <th>
-                            <a href="https://www.canada.ca/en/health-canada/services/understanding-food-labels/percent-daily-value.html">% Daily Value</a>
+                            <a href="https://www.canada.ca/en/health-canada/services/understanding-food-labels/percent-daily-value.html" target="_blank" rel="noreferrer">% Daily Value</a>
                         </th>
                     </tr>
                     <tr>
@@ -110,7 +66,7 @@ const RecipeDetails = (props) => {
                         <td>{Math.round(totalDaily.CA.quantity)} %</td>
                     </tr>
                     <tr>
-                        <td>Iron{Math.round(totalNutrients.FE.quantity)} mg</td>
+                        <td>Iron {Math.round(totalNutrients.FE.quantity)} mg</td>
                         <td>{Math.round(totalDaily.FE.quantity)} %</td>
                     </tr>
 
@@ -124,4 +80,23 @@ const RecipeDetails = (props) => {
 
 export default RecipeDetails;
 
+
+
+    // const {
+    //     ENERC_KCAL,
+    //     FAT,
+    //     FASAT,
+    //     FATRN,
+    //     CHOLE,
+    //     NA,
+    //     CHOCDF,
+    //     FIBTG,
+    //     SUGAR,
+    //     PROCNT,
+    //     K,
+    //     VITA_RAE,
+    //     VITC,
+    //     CA,
+    //     FE
+    // } = totalNutrients;
 

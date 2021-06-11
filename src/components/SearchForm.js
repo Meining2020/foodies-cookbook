@@ -2,8 +2,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-
-
 const SearchForm = () => {
 
     const [userInput, setUserInput] = useState("");
@@ -16,21 +14,16 @@ const SearchForm = () => {
         let inputValue = event.target.value;
         setUserInput(inputValue);
     }
-
-    //function to trigger API call once click submit
-
+    
     const handleSubmitClick = () => {
         // event.preventDefault();
-        // setQuery(userInput);
-        
+        // setQuery(userInput);  
         if (userInput) {
             setNoInput(false);
         } else {
             setNoInput(true);
         }
     }
-
-    // console.log(query)
 
     return (
         <div className="wrapper">

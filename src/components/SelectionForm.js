@@ -30,10 +30,12 @@ const SelectionForm = ({dietFilterFuntion}) => {
                     <option value="all">Just show me all!</option>
                 </select>
 
-                <button onClick={handleSubmitClick}>
-                    <i className="fas fa-filter" aria-hidden="true"></i>
-                    <span className="srOnly">click to filter by diet</span>
-                </button>
+
+                    <button onClick={handleSubmitClick}>
+                        <i className="fas fa-filter" aria-hidden="true"></i>
+                        <span className="srOnly">click to filter by diet</span>
+                    </button>
+                
             </form>
         </>
     )

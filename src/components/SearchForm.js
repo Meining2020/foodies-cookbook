@@ -26,31 +26,33 @@ const SearchForm = () => {
     }
 
     return (
-        <div className="wrapper">
-            {/* search area */}
-            <form  className="search">
-                {/* label for screen readers only*/}
-                <label htmlFor="input" className="srOnly">input keyword to search recipes</label>
-                {/* search bar*/}
-                <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search food" />
+        <div className="formContainer">
+            <div className="wrapper">
+                {/* search area */}
+                <form className="searchForm">
+                    {/* label for screen readers only*/}
+                    <label htmlFor="input" className="srOnly">input keyword to search recipes</label>
+                    {/* search bar*/}
+                    <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search food" />
 
-                {/* submit button */}
-                <Link to={`/results/${userInput}`}>
-                    <button type="submit" onClick={handleSubmitClick}>
-                        <i className="fas fa-search" aira-hidden="true"></i> 
-                        <span className="srOnly">click to start search</span> 
-                    
-                    </button>
-                </Link>
+                    {/* submit button */}
+                    <Link to={`/results/${userInput}`}>
+                        <button type="submit" onClick={handleSubmitClick}>
+                            <i className="fas fa-search" aira-hidden="true"></i>
+                            <span className="srOnly">click to start search</span>
 
-            </form>
-            {/* error message for no input */}
-            {
-                
-                noInput
-                    ? <p>Please enter a food!</p>
-                    : ""
-            }
+                        </button>
+                    </Link>
+
+                </form>
+                {/* error message for no input */}
+                {
+
+                    noInput
+                        ? <p>Please enter a food!</p>
+                        : ""
+                }
+            </div>
 
         </div>
     )

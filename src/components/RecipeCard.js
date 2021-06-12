@@ -39,8 +39,7 @@ const RecipeCard = ({ recipeData, savedRecipes }) => {
 
     return (
         // <Router>
-        <li className="subContainer">
-
+        <li className="recipeListItem">
             {
                 isSaved
                     ?
@@ -54,11 +53,9 @@ const RecipeCard = ({ recipeData, savedRecipes }) => {
                         <span className="srOnly">Click to add recipe to saved recipe list</span>
                     </button>
             }
-
-            <h2>{foodName}</h2>
-
+            <h2 className="recipeHeading">{foodName}</h2>
             <img src={foodImg} alt={`${foodName}`} onError={(event) => { event.target.src = notFoundPhoto; event.target.alt = "photo not found" }} />
-            <p>{Math.round(calories)} Cal</p>
+            <p>{Math.round(calories)} Cal per {Math.round(totalWeight)} g</p>
 
             <Link to={{
                 pathname: `/recipeDetails/${key}`,
@@ -73,9 +70,7 @@ const RecipeCard = ({ recipeData, savedRecipes }) => {
 
             <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
 
-
         </li>
-
     )
 }
 

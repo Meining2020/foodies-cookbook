@@ -26,7 +26,8 @@ const Header = ({savedRecipes}) => {
                         </li>
                     </ul>
                 </nav>
-                <h1>Foodie's Cookbook!</h1>
+                <h1 className="headingFade">Foodie's Cookbook!</h1>
+                <h2 className="homeHeading headingFade">Start Your Food Journey!</h2>
             </div>
         </header>
 

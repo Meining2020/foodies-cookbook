@@ -35,7 +35,6 @@ const Results = ({savedRecipes}) => {
                 app_key: apiKey,
             }
         );
-
         url.search = searchParams;
 
         setIsLoading(true);
@@ -54,9 +53,8 @@ const Results = ({savedRecipes}) => {
             })
             .then((jsonResponse) => {
                 // console.log(jsonResponse);
-
                 const recipeArray = jsonResponse.hits;
-                console.log(recipeArray);
+                // console.log(recipeArray);
 
                 const newRecipes = recipeArray.map((currentRecipe) => {
                     const { recipe } = currentRecipe;
@@ -90,7 +88,6 @@ const Results = ({savedRecipes}) => {
             })
     }, [query]);
 
-
     //function to filter data based on user's diet choice
     const dietFilter = (chosenDiet) => {
         // console.log("the chosen diet is: ", chosenDiet);
@@ -106,7 +103,6 @@ const Results = ({savedRecipes}) => {
             setFilteredDietRecipe(filteredRecipeArray);
         }
     } 
-
     return (
         <>
             {
@@ -114,7 +110,6 @@ const Results = ({savedRecipes}) => {
                     ? <SelectionForm dietFilterFuntion={dietFilter} />
                     : ""
             }
-
             { hasSeached && (filteredDietRecipe.length > 0
                 ?
                 <div className="recipeContainer wrapper">
@@ -133,7 +128,6 @@ const Results = ({savedRecipes}) => {
                                         savedRecipes={savedRecipes} 
                                         // removeRecipe={handleRemoveRecipe} 
                                         />
-
                                     )
                                 })
                         }
@@ -142,7 +136,6 @@ const Results = ({savedRecipes}) => {
                 :
                 <p>No Matching Result!</p>)
             }
-
         </>
     )
 }

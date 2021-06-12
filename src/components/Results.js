@@ -112,7 +112,7 @@ const Results = ({savedRecipes}) => {
             }
             { hasSeached && (filteredDietRecipe.length > 0
                 ?
-                <div className="recipeContainer wrapper">
+                <div className="recipeContainer wrapper" >
                     <ul>
                         {
                             isloading

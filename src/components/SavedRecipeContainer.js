@@ -26,7 +26,7 @@ const SavedRecipeContainer = ({savedRecipes}) => {
                             return (
                                 <li key={recipe.key} className="recipeListItem">
                                     {/* <p>{recipe.name}</p> */}
-                                    
+
                                     <a href={recipe.recipeSource} target="_blank" rel="noreferrer">{recipe.name}</a>
 
                                     <img src={recipe.foodImg} alt={`${recipe.foodName}`} onError={(event) => { event.target.src = notFoundPhoto; event.target.alt = "photo not found" }} />
@@ -41,7 +41,6 @@ const SavedRecipeContainer = ({savedRecipes}) => {
                     }
                 </ul>
             </div>
-
         </>
     )
 }

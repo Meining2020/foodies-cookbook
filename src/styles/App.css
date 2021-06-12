@@ -440,10 +440,7 @@ caption {
 /* search form style */
 
 .formContainer {
-    /* background-image: url(../assets/corinne-kutz-f1fV_4Q1dYE-unsplash.jpg);
-    background-size: cover;
-    background-repeat: no-repeat;  */
-    height: calc(30vh - 44px);
+    height: calc(30vh - 37px);
 }
 
 form {
@@ -597,20 +594,25 @@ footer a {
     25% {
         color: #ff4d6d;
     }
-
+    35% {
+        color: #ffb3c1;
+    }
+    50% {
+        color: #ffccd5;
+    }
     50% {
         color: #ff8fa3;
     }
     75% {
-        color: #ffb3c1;
+        color: #ff4d6d;
     }
     100% {
-        color: #ffccd5;
+        color: crimson;
     }
 }
 
 .headingFade {
-    animation: headingAnimation 0.8s linear infinite;
+    animation: headingAnimation 1s linear infinite;
 }
 /* 
 

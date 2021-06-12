@@ -47,7 +47,8 @@ function App() {
           name: data[key].foodName,
           saveState: true,
           recipeKey: data[key].key,
-          recipeSource: data[key].recipeSource
+          recipeSource: data[key].recipeSource,
+          foodImg: data[key].foodImg
         };
 
         // console.log(recipeObject)
@@ -65,19 +66,16 @@ function App() {
     <Router>
       <div className="App">
 
-        <Route path='/' render= {() => <Header savedRecipes={savedRecipes}/>}/>
-        <SearchForm />
-        <Route exact path='/results/:query' render={() => <Results savedRecipes={savedRecipes} />}/>
+        
+          <Route path='/' render={() => <Header savedRecipes={savedRecipes} />} />
+          <SearchForm />
+        
+        <main>
+          <Route exact path='/results/:query' render={() => <Results savedRecipes={savedRecipes} />} />
 
-        <Route exact path='/recipeDetails/:id' component={RecipeDetails} />
-        <Route exact path='/savedRecipes' render={() => <SavedRecipeContainer savedRecipes={savedRecipes} />}/>
-
-
-
-        {/* show list of saved recipe */}
-       
-
-
+          <Route exact path='/recipeDetails/:id' component={RecipeDetails} />
+          <Route exact path='/savedRecipes' render={() => <SavedRecipeContainer savedRecipes={savedRecipes} />} />
+        </main>
 
         <Footer />
 

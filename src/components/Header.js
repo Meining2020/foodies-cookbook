@@ -8,7 +8,7 @@ const Header = ({savedRecipes}) => {
                     <ul>
                         <li>
                             <Link to="/">
-                                <button className="navButton" >
+                                <button className="navButton iconButton" >
                                     <i className="fas fa-home" aria-hidden="true"></i>
                                     <span className="srOnly">Click to go to home page</span>
                                     
@@ -17,7 +17,7 @@ const Header = ({savedRecipes}) => {
                         </li>
                         <li>
                             <Link to="/savedRecipes">
-                                <button className="navButton" >
+                                <button className="navButton iconButton" >
                                     <i className="fas fa-heart" aria-hidden="true"></i>
                                     <span className="srOnly">Click to open saved recipes</span>
                                     <span className="recipeAmount" aria-label="number of saved recipes in the list">{savedRecipes.length}</span>
@@ -26,7 +26,8 @@ const Header = ({savedRecipes}) => {
                         </li>
                     </ul>
                 </nav>
-                <h1>Foodie's Cookbook!</h1>
+                <h1 className="headingFade">Foodie's Cookbook!</h1>
+                <h2 className="homeHeading headingFade">Start Your Food Journey!</h2>
             </div>
         </header>
 

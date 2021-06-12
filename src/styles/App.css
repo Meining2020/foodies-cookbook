@@ -445,9 +445,7 @@ caption {
 
 form {
     display: flex;
-    /* flex-direction: column; */
     justify-content: center;
-    /* align-items: flex-start; */
     align-items: center;
     padding: 2rem;
 }
@@ -464,7 +462,6 @@ input {
 }
 
 /* select styling */
-
 select {
     margin: 2rem;
     background-color: white;
@@ -637,10 +634,10 @@ footer a {
         text-align: center;
     }
 
-    footer p{
+    footer p {
         font-size: 1.5rem;
     }
-    footer a{
+    footer a {
         font-size: 1.5rem;
     }
 }

@@ -8,7 +8,6 @@ const SearchForm = () => {
     // const [query, setQuery] = useState("");
     const [noInput, setNoInput] = useState(false);
 
-
     //function to get user's input
     const handleUserInput = (event) => {
         let inputValue = event.target.value;

@@ -3,7 +3,7 @@ const RecipeDetails = (props) => {
     console.log(props)
     console.log(props.match.params)
     console.log(props.location.state)
-    const { totalNutrients, totalWeight, totalDaily, query } = props.location.state;
+    const { totalNutrients, totalWeight, totalDaily } = props.location.state;
 
     return (
         <div className="tableContainer">

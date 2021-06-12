@@ -5,7 +5,7 @@ import '../styles/App.css';
 import { useEffect, useState } from 'react'
 
 //import router and route
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 //import Components
 
@@ -27,11 +27,10 @@ import firebase from "../config/firebase.js";
 function App() {
   //define useStates
 
-  const dbRef = firebase.database().ref();
+
   const [savedRecipes, setSavedRecipes] = useState([]);
 
   useEffect(() => {
-    //redefine to clear warning
     const dbRef = firebase.database().ref();
     dbRef.on('value', (response) => {
       // console.log(response);
@@ -39,8 +38,8 @@ function App() {
       // console.log(data);
       const recipeObjectArray = [];
       for (let key in data) {
-        console.log(key);
-        console.log(data);
+        // console.log(key);
+        // console.log(data);
 
         const recipeObject = {
           key: key,

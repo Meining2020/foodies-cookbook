@@ -1,15 +1,24 @@
-import { useState } from 'react';
-import RecipeDetails from './RecipeDetails.js';
+
+import { Link } from 'react-router-dom';
+// importing our firebase configuration
+import firebase from "../config/firebase.js";
+
 import notFoundPhoto from '../assets/notfound_placeholder.svg';
 
-const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe }) => {
+const RecipeCard = ({ recipeData, savedRecipes }) => {
 
-    const { foodName, foodImg, calories, ingredientList, recipeSource, key } = recipeData;
+    const { foodName, foodImg, calories, recipeSource, key, totalNutrients, totalDaily, totalWeight } = recipeData;
 
-    const [show, setShow] = useState(false);
+    // Referencing firebase database
+    const dbRef = firebase.database().ref();
+    const handleAddRecipe = (recipeKey) => {
+        // console.log(recipeKey);
+        dbRef.push(recipeKey);
+    }
 
-    const handleShow = () => {
-        setShow(!show);
+    const handleRemoveRecipe = (recipeKey) => {
+        // console.log(recipeKey);
+        dbRef.child(recipeKey).remove();
     }
 
     //check if specific recipe exsit in the list
@@ -29,36 +38,39 @@ const RecipeCard = ({ recipeData, addRecipeFunction, savedRecipes, removeRecipe 
     // }).includes(key);
 
     return (
-        <div className="subContainer">
-
+        // <Router>
+        <li className="recipeListItem">
             {
                 isSaved
                     ?
-                    <button className="heartButton" onClick={() => { removeRecipe(savedRecipe.key) }}>
+                    <button className="saveControlButton iconButton" onClick={() => { handleRemoveRecipe(savedRecipe.key) }}>
                         <i className="fas fa-heart" aria-hidden="true"></i>
                         <span className="srOnly">Click to remove recipe remove saved recipe list</span>
                     </button>
                     :
-                    <button className="heartButton" onClick={() => { addRecipeFunction(recipeData) }}>
+                    <button className="saveControlButton iconButton" onClick={() => { handleAddRecipe(recipeData) }}>
                         <i className="far fa-heart" aria-hidden="true"></i>
                         <span className="srOnly">Click to add recipe to saved recipe list</span>
                     </button>
             }
-
-            <h2>{foodName}</h2>
-
+            <h2 className="recipeHeading">{foodName}</h2>
             <img src={foodImg} alt={`${foodName}`} onError={(event) => { event.target.src = notFoundPhoto; event.target.alt = "photo not found" }} />
-            <p>{parseInt(calories)} Cal</p>
+            <p>{Math.round(calories)} Cal per {Math.round(totalWeight)} g</p>
 
-            <button onClick={handleShow}>Ingredient List</button>
-
-            {show ? <RecipeDetails ingredientData={ingredientList} /> : ""}
+            <Link to={{
+                pathname: `/recipeDetails/${key}`,
+                state: {
+                    totalNutrients: totalNutrients,
+                    totalDaily: totalDaily,
+                    totalWeight: totalWeight,
+                }
+            }}>
+                <button>Nutrition Facts</button>
+            </Link>
 
             <a href={recipeSource} target="_blank" rel="noreferrer">Recipe link</a>
 
-            <button>Nutrition Facts</button>
-
-        </div>
+        </li>
     )
 }
 

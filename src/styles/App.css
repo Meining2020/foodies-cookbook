@@ -526,6 +526,10 @@ option {
     font: 2rem;
 }
 
+.savedRecipeContainer {
+    padding-top: 2rem;
+}
+
 /* Nutrition fact page */
 .tableContainer {
     padding: 2rem 0 4rem;

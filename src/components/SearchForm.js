@@ -22,6 +22,7 @@ const SearchForm = () => {
         } else {
             setNoInput(true);
         }
+        setUserInput("");
 
         document.querySelector("main").scrollIntoView({ behavior: 'smooth' });
     }

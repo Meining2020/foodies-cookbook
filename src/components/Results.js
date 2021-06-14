@@ -1,22 +1,20 @@
-
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-
 //import spinner
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
-
+//import components
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
-const apiID = `2b60c807`;
-const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
+// const apiID = `2b60c807`;
+// const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 const override = css`
     display: block;
     margin: 3rem auto;
 `;
 
-const Results = ({savedRecipes}) => {
+const Results = ({ savedRecipes }) => {
     const [allRecipe, setAllRecipe] = useState([]);
     const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
     // const [savedRecipe, setSavedRecipe] = useState([]);
@@ -24,15 +22,16 @@ const Results = ({savedRecipes}) => {
     const [isloading, setIsLoading] = useState(false);
 
     const {query} = useParams();
+    const resultsRef = useRef();
 
     useEffect(() => {
         // setUserInput('');
-        const url = new URL(`https://api.edamam.com/search`);
+        const url = new URL(process.env.REACT_APP_API_BASE_URL);
         const searchParams = new URLSearchParams(
             {
                 q: query,
-                app_id: apiID,
-                app_key: apiKey,
+                app_id: process.env.REACT_APP_API_ID,
+                app_key: process.env.REACT_APP_API_KEY,
             }
         );
         url.search = searchParams;
@@ -84,6 +83,8 @@ const Results = ({savedRecipes}) => {
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 500);
+                //scroll to the results section
+                resultsRef.current.scrollIntoView({behaviour:'smooth'})
 
             })
     }, [query]);
@@ -102,17 +103,18 @@ const Results = ({savedRecipes}) => {
             // console.log("filtered array based on diet choice: ", filteredRecipeArray);
             setFilteredDietRecipe(filteredRecipeArray);
         }
-    } 
+    }
     return (
-        <>
+
+        <div className="resultsContainer" ref={resultsRef}>
             {
                 query
                     ? <SelectionForm dietFilterFuntion={dietFilter} />
                     : ""
             }
-            { hasSeached && (filteredDietRecipe.length > 0
+            {hasSeached && (filteredDietRecipe.length > 0
                 ?
-                <div className="recipeContainer wrapper" >
+                <div className="recipeContainer wrapper">
                     <ul>
                         {
                             isloading
@@ -121,11 +123,11 @@ const Results = ({savedRecipes}) => {
                                 :
                                 filteredDietRecipe.map((currentData) => {
                                     return (
-                                        <RecipeCard 
-                                        recipeData={currentData} 
-                                        key={currentData.key} 
-                                        // addRecipeFunction={handleAddRecipeClick} 
-                                        savedRecipes={savedRecipes} 
+                                        <RecipeCard
+                                            recipeData={currentData}
+                                            key={currentData.key}
+                                            // addRecipeFunction={handleAddRecipeClick} 
+                                            savedRecipes={savedRecipes}
                                         // removeRecipe={handleRemoveRecipe} 
                                         />
                                     )
@@ -136,7 +138,8 @@ const Results = ({savedRecipes}) => {
                 :
                 <p>No Matching Result!</p>)
             }
-        </>
+        </div>
+
     )
 }
 

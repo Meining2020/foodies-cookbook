@@ -1,7 +1,6 @@
-
+import { useEffect, useRef } from 'react'
 import firebase from "../config/firebase.js";
-
-import notFoundPhoto from '../assets/notfound_placeholder.svg';
+import notFoundPhoto from '../assets/notFoundPlaceholder.svg';
 
 const SavedRecipeContainer = ({savedRecipes}) => {
 
@@ -11,10 +10,15 @@ const SavedRecipeContainer = ({savedRecipes}) => {
         // console.log(recipeKey);
         dbRef.child(recipeKey).remove();
     }
+    
+    const savedRecipesRef = useRef();
+    useEffect(() => {
+        savedRecipesRef.current.scrollIntoView({ behavior: 'smooth' })
+    })
 
     return (
         <>
-            <div className="recipeContainer savedRecipeContainer">
+            <div className="recipeContainer savedRecipeContainer" ref={savedRecipesRef}>
                 <div className="wrapper">
                     <h3>Your Recipe List</h3>
                     <p>{savedRecipes.length} recipe{savedRecipes.length > 1 ? "s" : ""}</p>

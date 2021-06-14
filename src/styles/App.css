@@ -248,7 +248,7 @@ html {
 .App {
     /* background-color: #f1e4e2; */
     /* background-image: linear-gradient(to left bottom, #ffffff, #fff9fe, #fff2f5, #ffede4, #ffecd2); */
-    background-image: url(../assets/hermes-rivera-iAJC7d2YVyI-unsplash.jpg);
+    background-image: url(../assets/backgroundImage.jpg);
     /* height: calc(100vh - 328px); */
     height: 100vh;
     background-size: cover;
@@ -261,15 +261,8 @@ html {
     margin: 0 auto;
 }
 
-/* header {
-    background-image: url(../assets/hermes-rivera-iAJC7d2YVyI-unsplash.jpg);
-    height: calc(100vh - 328px);
-    background-size: cover;
-    background-repeat: no-repeat; 
-} */
-
 header {
-    height: 70vh;
+    height: 70%;
 }
 
 main {
@@ -382,45 +375,13 @@ h2 {
 
 h1 {
     font-size: 5rem;
-    margin-top: 20vh;
+    margin-top: 10vh;
 }
 
 .h2 {
     box-shadow: none;
     background-color: transparent;
 }
-
-/* .savedRecipeContainer {
-    width: 100%;
-    top: 8rem;
-    padding: 2rem 0 4rem;
-} */
-
-/* .savedRecipeList {
-    text-align: center;
-}
-
-.savedRecipeList li:last-child {
-    margin-bottom: 0;
-}
-
-.recipeList {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem 0;
-}
-
-.recipeList a {
-    margin: 1rem 0;
-} */
-
-/* .recipeList button {
-    position: absolute;
-    top: 0;
-    right: 0;
-} */
 
 h3,
 caption {
@@ -438,9 +399,8 @@ caption {
 }
 
 /* search form style */
-
 .formContainer {
-    height: calc(30vh - 37px);
+    height: calc(30% - 37px);
 }
 
 form {
@@ -459,6 +419,10 @@ input {
     width: 30%;
     border: solid 2px crimson;
     height: 40px;
+}
+
+.errorMessage {
+    text-align: right;
 }
 
 /* select styling */
@@ -527,7 +491,7 @@ option {
 }
 
 .savedRecipeContainer {
-    padding-top: 2rem;
+    padding: 2rem 0;
 }
 
 /* Nutrition fact page */
@@ -568,6 +532,14 @@ th a {
 
 td {
     padding: 0 1rem;
+}
+
+.toTop {
+    position: fixed;
+    left: 5px;
+    bottom: 30px;
+    display: none;
+    opacity: .7;
 }
 
 /* footer styling*/
@@ -623,11 +595,17 @@ footer a {
     input {
         width: 50%;
     }
+    .toTop {
+        display: block;
+    }
 }
 
 @media (max-width: 587px) {
     .searchForm {
         justify-content: center;
+    }
+    .errorMessage {
+        text-align: center;
     }
     input {
         width: 80%;

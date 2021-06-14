@@ -1,9 +1,8 @@
-
 import { Link } from 'react-router-dom';
 // importing our firebase configuration
 import firebase from "../config/firebase.js";
-
-import notFoundPhoto from '../assets/notfound_placeholder.svg';
+//import photo
+import notFoundPhoto from '../assets/notFoundPlaceholder.svg';
 
 const RecipeCard = ({ recipeData, savedRecipes }) => {
 

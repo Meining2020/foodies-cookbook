@@ -1,8 +1,5 @@
-
 const RecipeDetails = (props) => {
-    console.log(props)
-    console.log(props.match.params)
-    console.log(props.location.state)
+    //deconstruction
     const { totalNutrients, totalWeight, totalDaily } = props.location.state;
 
     return (
@@ -10,12 +7,9 @@ const RecipeDetails = (props) => {
             <div className="wrapper">
                 <table>
                     <caption>Nutrition Facts</caption>
-
                     <thead><th colspan="3">per {Math.round(totalWeight)}g</th></thead>
-
                     <tbody>
                         <tr>
-
                             <th>Calories {Math.round(totalNutrients.ENERC_KCAL.quantity)}</th>
                             <th>
                                 <a href="https://www.canada.ca/en/health-canada/services/understanding-food-labels/percent-daily-value.html" target="_blank" rel="noreferrer">% Daily Value</a>
@@ -69,9 +63,7 @@ const RecipeDetails = (props) => {
                             <td>Iron {Math.round(totalNutrients.FE.quantity)} mg</td>
                             <td>{Math.round(totalDaily.FE.quantity)} %</td>
                         </tr>
-
                     </tbody>
-
                 </table>
             </div>
         </div>

@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const SearchForm = () => {
-
     const [userInput, setUserInput] = useState("");
     // const [query, setQuery] = useState("");
     const [noInput, setNoInput] = useState(false);
@@ -23,8 +22,6 @@ const SearchForm = () => {
             setNoInput(true);
         }
         setUserInput("");
-
-        document.querySelector("main").scrollIntoView({ behavior: 'smooth' });
     }
 
     return (
@@ -51,7 +48,7 @@ const SearchForm = () => {
                 {
 
                     noInput
-                        ? <p>Please enter a food!</p>
+                        ? <p className="errorMessage">Please enter a food!</p>
                         : ""
                 }
             </div>

@@ -7,6 +7,9 @@ import FadeLoader from "react-spinners/FadeLoader";
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
+require('dotenv').config()
+console.log(process.env)
+
 const override = css`
     display: block;
     margin: 3rem auto;

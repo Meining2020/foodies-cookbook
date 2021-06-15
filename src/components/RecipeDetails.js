@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
+require('dotenv').config()
+
 const override = css`
     display: block;
     margin: 3rem auto;

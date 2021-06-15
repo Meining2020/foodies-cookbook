@@ -7,6 +7,8 @@ import FadeLoader from "react-spinners/FadeLoader";
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
+require('dotenv').config();
+
 // const apiID = `2b60c807`;
 // const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 const override = css`
@@ -19,14 +21,14 @@ const Results = ({ savedRecipes }) => {
     const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
     // const [savedRecipe, setSavedRecipe] = useState([]);
     const [hasSeached, setHasSearched] = useState(false);
-    const [isloading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const {query} = useParams();
     const resultsRef = useRef();
 
     useEffect(() => {
         // setUserInput('');
-        const url = new URL(process.env.REACT_APP_API_BASE_URL);
+        const url = new URL(`https://api.edamam.com/search`);
         const searchParams = new URLSearchParams(
             {
                 q: query,
@@ -40,8 +42,6 @@ const Results = ({ savedRecipes }) => {
 
         fetch(url)
             .then((response) => {
-                // console.log(response);
-
                 if (response.status === 200) {
                     return response.json();
                 } else {
@@ -51,7 +51,6 @@ const Results = ({ savedRecipes }) => {
                 }
             })
             .then((jsonResponse) => {
-                // console.log(jsonResponse);
                 const recipeArray = jsonResponse.hits;
                 // console.log(recipeArray);
 
@@ -66,9 +65,9 @@ const Results = ({ savedRecipes }) => {
                         dietType: recipe.dietLabels,
                         //extract recipe id from the uri
                         key: recipe.uri.replace('http://www.edamam.com/ontologies/edamam.owl#recipe_', ''),
-                        totalNutrients: recipe.totalNutrients,
-                        totalDaily: recipe.totalDaily,
-                        totalWeight: recipe.totalWeight
+                        // totalNutrients: recipe.totalNutrients,
+                        // totalDaily: recipe.totalDaily,
+                        // totalWeight: recipe.totalWeight
                     }
                 });
 
@@ -117,7 +116,7 @@ const Results = ({ savedRecipes }) => {
                 <div className="recipeContainer wrapper">
                     <ul>
                         {
-                            isloading
+                            isLoading
                                 ?
                                 <FadeLoader css={override} color={'#E82915'} size={150} />
                                 :

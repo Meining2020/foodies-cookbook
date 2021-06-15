@@ -6,7 +6,7 @@ import notFoundPhoto from '../assets/notFoundPlaceholder.svg';
 
 const RecipeCard = ({ recipeData, savedRecipes }) => {
 
-    const { foodName, foodImg, calories, recipeSource, key, totalNutrients, totalDaily, totalWeight } = recipeData;
+    const { foodName, foodImg, calories, recipeSource, key, totalWeight } = recipeData;
 
     // Referencing firebase database
     const dbRef = firebase.database().ref();
@@ -58,11 +58,11 @@ const RecipeCard = ({ recipeData, savedRecipes }) => {
 
             <Link to={{
                 pathname: `/recipeDetails/${key}`,
-                state: {
-                    totalNutrients: totalNutrients,
-                    totalDaily: totalDaily,
-                    totalWeight: totalWeight,
-                }
+                // state: {
+                //     totalNutrients: totalNutrients,
+                //     totalDaily: totalDaily,
+                //     totalWeight: totalWeight,
+                // }
             }}>
                 <button>Nutrition Facts</button>
             </Link>

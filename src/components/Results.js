@@ -7,10 +7,6 @@ import FadeLoader from "react-spinners/FadeLoader";
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
-require('dotenv').config();
-
-// const apiID = `2b60c807`;
-// const apiKey = `d05cdb8ea868c5078528ac90ad938934`;
 const override = css`
     display: block;
     margin: 3rem auto;

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 const SearchForm = () => {
     const [userInput, setUserInput] = useState("");
-    // const [query, setQuery] = useState("");
     const [noInput, setNoInput] = useState(false);
 
     //function to get user's input
@@ -12,10 +11,8 @@ const SearchForm = () => {
         let inputValue = event.target.value;
         setUserInput(inputValue);
     }
-    
+    //function to update state of noInput 
     const handleSubmitClick = () => {
-        // event.preventDefault();
-        // setQuery(userInput);  
         if (userInput) {
             setNoInput(false);
         } else {
@@ -27,14 +24,9 @@ const SearchForm = () => {
     return (
         <div className="formContainer">
             <div className="wrapper">
-                {/* search area */}
                 <form className="searchForm">
-                    {/* label for screen readers only*/}
                     <label htmlFor="input" className="srOnly">input keyword to search recipes</label>
-                    {/* search bar*/}
                     <input type="text" id="input" value={userInput} onChange={handleUserInput} placeholder="Search food" />
-
-                    {/* submit button */}
                     <Link to={`/results/${userInput}`}>
                         <button type="submit" onClick={handleSubmitClick}>
                             <i className="fas fa-search" aira-hidden="true"></i>
@@ -42,21 +34,16 @@ const SearchForm = () => {
 
                         </button>
                     </Link>
-
                 </form>
-                {/* error message for no input */}
                 {
-
                     noInput
                         ? <p className="errorMessage">Please enter a food!</p>
                         : ""
                 }
             </div>
-
         </div>
     )
 }
-
 
 export default SearchForm;
 

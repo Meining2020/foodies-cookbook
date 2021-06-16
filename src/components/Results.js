@@ -7,8 +7,8 @@ import FadeLoader from "react-spinners/FadeLoader";
 import SelectionForm from './SelectionForm.js';
 import RecipeCard from './RecipeCard.js';
 
+// enable to load environment variables from .env file into the process.env object
 require('dotenv').config()
-console.log(process.env)
 
 const override = css`
     display: block;
@@ -18,15 +18,13 @@ const override = css`
 const Results = ({ savedRecipes }) => {
     const [allRecipe, setAllRecipe] = useState([]);
     const [filteredDietRecipe, setFilteredDietRecipe] = useState([]);
-    // const [savedRecipe, setSavedRecipe] = useState([]);
     const [hasSeached, setHasSearched] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
-
-    const {query} = useParams();
+    const { query } = useParams();
     const resultsRef = useRef();
 
+    //  On component mount call API using query
     useEffect(() => {
-        // setUserInput('');
         const url = new URL(`https://api.edamam.com/search`);
         const searchParams = new URLSearchParams(
             {
@@ -51,29 +49,20 @@ const Results = ({ savedRecipes }) => {
             })
             .then((jsonResponse) => {
                 const recipeArray = jsonResponse.hits;
-                // console.log(recipeArray);
-
                 const newRecipes = recipeArray.map((currentRecipe) => {
                     const { recipe } = currentRecipe;
                     return {
                         foodName: recipe.label,
                         foodImg: recipe.image,
                         calories: recipe.calories,
-                        ingredientList: recipe.ingredientLines,
                         recipeSource: recipe.url,
                         dietType: recipe.dietLabels,
                         //extract recipe id from the uri
                         key: recipe.uri.replace('http://www.edamam.com/ontologies/edamam.owl#recipe_', ''),
-                        // totalNutrients: recipe.totalNutrients,
-                        // totalDaily: recipe.totalDaily,
-                        // totalWeight: recipe.totalWeight
+                        totalWeight: recipe.totalWeight
                     }
                 });
-
                 setAllRecipe(newRecipes);
-
-                // console.log(newRecipes)
-
                 setFilteredDietRecipe(newRecipes);
 
                 if (query) setHasSearched(true);
@@ -82,62 +71,55 @@ const Results = ({ savedRecipes }) => {
                     setIsLoading(false);
                 }, 500);
                 //scroll to the results section
-                resultsRef.current.scrollIntoView({behaviour:'smooth'})
-
+                resultsRef.current.scrollIntoView({ behaviour: 'smooth' })
             })
     }, [query]);
 
     //function to filter data based on user's diet choice
     const dietFilter = (chosenDiet) => {
-        // console.log("the chosen diet is: ", chosenDiet);
         if (chosenDiet === "all") {
             setFilteredDietRecipe(allRecipe);
         } else {
-
             const filteredRecipeArray = allRecipe.filter((currentRecipe) => {
                 //check if array contains user's select choice
                 return currentRecipe.dietType.includes(chosenDiet);
             });
-            // console.log("filtered array based on diet choice: ", filteredRecipeArray);
             setFilteredDietRecipe(filteredRecipeArray);
         }
     }
     return (
-
         <div className="resultsContainer" ref={resultsRef}>
             {
                 query
                     ? <SelectionForm dietFilterFuntion={dietFilter} />
                     : ""
             }
-            {hasSeached && (filteredDietRecipe.length > 0
-                ?
-                <div className="recipeContainer wrapper">
-                    <ul>
-                        {
-                            isLoading
-                                ?
-                                <FadeLoader css={override} color={'#E82915'} size={150} />
-                                :
-                                filteredDietRecipe.map((currentData) => {
-                                    return (
-                                        <RecipeCard
-                                            recipeData={currentData}
-                                            key={currentData.key}
-                                            // addRecipeFunction={handleAddRecipeClick} 
-                                            savedRecipes={savedRecipes}
-                                        // removeRecipe={handleRemoveRecipe} 
-                                        />
-                                    )
-                                })
-                        }
-                    </ul>
-                </div>
-                :
-                <p>No Matching Result!</p>)
+            {
+                hasSeached && (filteredDietRecipe.length > 0
+                    ?
+                    <div className="recipeContainer wrapper">
+                        <ul>
+                            {
+                                isLoading
+                                    ?
+                                    <FadeLoader css={override} color={'#E82915'} size={150} />
+                                    :
+                                    filteredDietRecipe.map((currentData) => {
+                                        return (
+                                            <RecipeCard
+                                                recipeData={currentData}
+                                                key={currentData.key}
+                                                savedRecipes={savedRecipes}
+                                            />
+                                        )
+                                    })
+                            }
+                        </ul>
+                    </div>
+                    :
+                    <p>No Matching Result!</p>)
             }
         </div>
-
     )
 }
 

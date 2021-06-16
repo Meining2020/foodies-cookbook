@@ -30,7 +30,6 @@ const Header = ({savedRecipes}) => {
                 <h2 className="homeHeading headingFade">Start Your Food Journey!</h2>
             </div>
         </header>
-
     )
 }
 

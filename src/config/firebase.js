@@ -3,7 +3,6 @@ import firebase from 'firebase/app';
 import 'firebase/database';
 
 // Initialize Firebase
-// *** USE YOUR CONFIG OBJECT ***
 const firebaseConfig = {
     apiKey: "AIzaSyC6QJtq96N7_nd2OoQrgyO3TYxTHWRTYjE",
     authDomain: "foodies-cookbook.firebaseapp.com",

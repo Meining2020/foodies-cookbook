@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-
 //import spinner
 import { css } from "@emotion/react";
 import FadeLoader from "react-spinners/FadeLoader";
 
+// enable to load environment variables from .env file into the process.env object
 require('dotenv').config()
 
 const override = css`
@@ -12,8 +12,6 @@ const override = css`
 `;
 
 const RecipeDetails = (props) => {
-    //deconstruction
-    // const { totalNutrients, totalWeight, totalDaily } = props.location.state;
     const id = props.match.params.id;
     const [isLoading, setIsLoading] = useState(true);
     const [foodName, setFoodName] = useState("");
@@ -21,8 +19,8 @@ const RecipeDetails = (props) => {
     const [totalNutrients, setTotalNutrients] = useState({});
     const [totalDaily, setTotalDaily] = useState({});
 
+    //  On component mount call API using recipe id
     useEffect(() => {
-        // setUserInput('');
         const url = new URL(`https://api.edamam.com/api/recipes/v2/${id}`);
         const searchParams = new URLSearchParams(
             {
@@ -44,14 +42,12 @@ const RecipeDetails = (props) => {
                 }
             })
             .then((jsonResponse) => {
-                // console.log(jsonResponse);
                 const recipeObj = jsonResponse.recipe;
                 const { label, totalNutrients, totalDaily, totalWeight } = recipeObj;
                 setFoodName(label);
                 setTotalNutrients(totalNutrients);
                 setTotalDaily(totalDaily);
                 setTotalWeight(totalWeight);
-
                 setTimeout(() => {
                     setIsLoading(false);
                 }, 500);
@@ -62,12 +58,12 @@ const RecipeDetails = (props) => {
     return (
         <div className="tableContainer">
             {
-                isLoading 
-                    ? 
+                isLoading
+                    ?
                     <FadeLoader css={override} color={'#E82915'} size={150} />
                     :
                     <div className="wrapper">
-                        <h3>{foodName}</h3>                        
+                        <h3>{foodName}</h3>
                         <table>
                             <caption>Nutrition Facts</caption>
                             <thead>
@@ -124,7 +120,6 @@ const RecipeDetails = (props) => {
                                 </tr>
                             </tbody>
                         </table>
-                        
                     </div>
             }
         </div>
@@ -133,23 +128,4 @@ const RecipeDetails = (props) => {
 
 export default RecipeDetails;
 
-
-
-    // const {
-    //     ENERC_KCAL,
-    //     FAT,
-    //     FASAT,
-    //     FATRN,
-    //     CHOLE,
-    //     NA,
-    //     CHOCDF,
-    //     FIBTG,
-    //     SUGAR,
-    //     PROCNT,
-    //     K,
-    //     VITA_RAE,
-    //     VITC,
-    //     CA,
-    //     FE
-    // } = totalNutrients;
 

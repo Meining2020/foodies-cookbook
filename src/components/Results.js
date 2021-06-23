@@ -117,7 +117,7 @@ const Results = ({ savedRecipes }) => {
                         </ul>
                     </div>
                     :
-                    <p>No Matching Result!</p>)
+                    <p className="noMatching">No Matching Result!</p>)
             }
         </div>
     )
